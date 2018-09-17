@@ -1,5 +1,5 @@
 ---
-title: "Migration Department NDVI access"
+title: "Migration Department Remote Sensed Data access"
 author: "Simeon Lisovski"
 date: "2018 M04 27"
 output: html_document
@@ -29,13 +29,14 @@ You only have to do that once.
 
 2. Create spatial polygon or coordinates for which you want to extract NDVI values.
 
-3. Use function `getVHP` to extract values.
+3. Use function `getData` to extract values.
 
-## The dataset
+## The datasets
 
-So far, the only available dataset is names `VHP.G16.C07.SM.csv` which is a combination of noise reduced NDVI and BT values from the NOAA AVHRR-VHP priduct. The spatial resolution is 16 km and the dataset starts in 1981 (till today). The AVHRR-VHP is a re-processed Vegetation Health data set derived from AVHRR GAC data. It was processed by the newly developed operational VHP system. 
+1. _VHP:_ So far, the only available dataset is names `VHP.G16.C07.SM.csv` which is a combination of noise reduced NDVI and BT values from the NOAA AVHRR-VHP priduct. The spatial resolution is 16 km and the dataset starts in 1981 (till today). The AVHRR-VHP is a re-processed Vegetation Health data set derived from AVHRR GAC data. It was processed by the newly developed operational VHP system. 
 For further unformation see: https://www.star.nesdis.noaa.gov/smcd/emb/vci/VH/vh_ftp.php
 
+2. _Tmax:_ Daily maximum temperature....
 
 ## Example
 
@@ -55,7 +56,7 @@ Next, I can use the function `getVHP` to extract the NDVI values:
 ```{r, warning=FALSE, message=FALSE}
 library(soiRSDA)
 
-ndvi <- getVHP(Fra, dates = c("2000-01-01", "2000-12-31"), returnRast = TRUE)
+ndvi <- getData(Fra, type = "VHP", dates = c("2000-01-01", "2000-12-31"), returnRast = TRUE)
 ```
 
 Several options exist;

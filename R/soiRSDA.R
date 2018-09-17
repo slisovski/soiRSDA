@@ -10,25 +10,42 @@
 ##' @param path the path leading to the `VHP.G16.C07.SM.csv` file. If `NULL` (default), the funcition will search in default R drive folder.
 ##' @return ...
 ##' @export
-getVHP <- function(y, buffer = NULL, dates = NULL, path = NULL, returnRast = TRUE, ...) {
+getData <- function(y, dataset = "VHP", buffer = NULL, dates = NULL, path = NULL, returnRast = TRUE, ...) {
 
+
+  if(dataset=="VHP") {
   if (is.null(path)) {
-    if(file.exists("R:/40 Data/99 Diverse//VHP.G16.C07.SM/VHP.G16.C07.SM.csv")) {
-    path <- list.files("R:/40 Data/99 Diverse/", pattern = "VHP.G16.C07.SM.csv", recursive = T, full.names = T)
+    if(file.exists("R:/40 Data/99 Diverse/RemoteSensedDatabse/VHP.G16.C07.SM/VHP.G16.C07.SM.csv")) {
+    path <- list.files("R:/40 Data/99 Diverse/RemoteSensedDatabse/", pattern = "VHP.G16.C07.SM.csv", recursive = T, full.names = T)
     } else {
       stop("Can't find VHP.G16.C07.SM.csv or R drive on your system.")
     }
   } else {
     if(!file.exists(path)) stop("Path is not leading to an existing file.")
   }
+    data(RasterIndex_VHP)
+    data(DateIndex_VHP)
+  }
+  if(dataset=="Tmax") {
+    if (is.null(path)) {
+      if(file.exists("R:/40 Data/99 Diverse/RemoteSensedDatabse/CPC_GDT/CPC_GDT_tmax.csv")) {
+        path <- list.files("R:/40 Data/99 Diverse/RemoteSensedDatabse/", pattern = "CPC_GDT_tmax.csv", recursive = T, full.names = T)
+      } else {
+        stop("Can't find CPC_GDT_tmax.csv or R drive on your system.")
+      }
+    } else {
+      if(!file.exists(path)) stop("Path is not leading to an existing file.")
+    }
+    data(RasterIndex_CPC)
+    data(DateIndex_CPC)
+  }
 
-  data(RasterIndex)
-  data(DateIndex)
+
 
   if((is.matrix(y) | is.data.frame(y)) & !is.null(buffer)) {
     ind <- unlist(raster::extract(RasterIndex, y, buffer = buffer))
 
-    } else {
+  } else {
   ind <- unlist(raster::extract(RasterIndex, y))
   }
   ind <- ind[!is.na(ind)]
